@@ -27,26 +27,43 @@ bash pty:true command:"claude -p 'Your prompt'"
 
 ## Automated Permission Approval
 
-When using this skill for complex automation (e.g., orchestrating other Claude agents), you may encounter permission prompts that block the non-interactive flow. To pre-approve specific tools and commands in a project directory, create a `.claude/settings.json` file:
+When using this skill for complex automation (e.g., orchestrating other Claude agents), you may encounter permission prompts that block the non-interactive flow. To pre-approve specific tools and commands in a project directory, create a `.claude/settings.json` file.
 
+### Common Language Permissions
+
+Add these to the `allow` array based on the project's tech stack:
+
+- **General**: `Read`, `Write`, `Edit`, `Bash(*)`
+- **Rust**: `Bash(cargo*)`, `Bash(rustc*)`
+- **Node/JS**: `Bash(npm*)`, `Bash(pnpm*)`, `Bash(bun*)`, `Bash(node*)`
+- **Python**: `Bash(python*)`, `Bash(pip*)`, `Bash(pytest*)`, `Bash(poetry*)`
+- **Go**: `Bash(go*)`
+
+Example for a multi-stack project:
 ```bash
 mkdir -p .claude
 cat > .claude/settings.json << 'EOF'
 {
   "permissions": {
     "allow": [
-      "Write",
-      "Edit",
-      "Bash(cargo*)",
-      "Bash(claude*)",
-      "Bash(rustc*)"
+      "Read", "Write", "Edit",
+      "Bash(cargo*)", "Bash(rustc*)",
+      "Bash(npm*)", "Bash(pnpm*)", "Bash(bun*)", "Bash(node*)",
+      "Bash(python*)", "Bash(pip*)", "Bash(go*)"
     ]
   }
 }
 EOF
 ```
 
-This allows the agent to execute the listed tools without manual human-in-the-loop approval for every operation.
+## Troubleshooting & Unblocking Sub-agents
+
+If an orchestrator agent spawns a background sub-agent that seems stuck:
+
+1. **Check the Logs**: Use `process action:log sessionId:XXX` to look for errors like "blocked on permissions", "Not logged in", or "Please run /login".
+2. **Inject Permissions**: If blocked on tools, use `mkdir -p .claude` and write the `settings.json` file as shown above.
+3. **Verify Auth**: If "Not logged in", the human must run `claude /login` in a terminal once.
+4. **Restart**: After fixing permissions/auth, the orchestrator should restart the sub-agent task.
 
 ## Usage
 
