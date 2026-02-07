@@ -17,6 +17,19 @@ The Claude Code CLI can be invoked in non-interactive mode using the `-p` or `--
 
 **Important Security Note**: The `-p` flag automatically bypasses the workspace trust dialog. Only use this in directories you trust.
 
+### Setup and Requirements
+
+1. **Authentication**: Before using this skill, you MUST perform a one-time login in your terminal:
+   ```bash
+   claude /login
+   ```
+   Follow the OAuth flow in your browser to authorize the CLI.
+2. **OpenClaw Execution**: When calling this skill from an OpenClaw agent, ALWAYS use `pty:true` to ensure the terminal output is handled correctly.
+   ```bash
+   # Example OpenClaw tool call
+   bash pty:true command:"claude -p 'Your prompt'"
+   ```
+
 ## Usage
 
 ### Basic Syntax
