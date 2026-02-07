@@ -118,8 +118,22 @@ When OpenClaw reads this skill, it will understand how to:
 
 ## Requirements
 
+### Human Intervention Required
+
+Before using this skill through an AI agent, a human **must** perform a one-time login in the terminal. AI agents cannot complete the OAuth flow themselves as it requires manual browser interaction.
+
+1. In your terminal, run:
+   ```bash
+   claude /login
+   ```
+2. Follow the OAuth flow in your browser to authorize the CLI.
+
+Once logged in, the agent will be able to use the `-p` flag to perform non-interactive tasks.
+
+### System Requirements
+
 - Claude Code CLI installed and configured
-- Valid Claude authentication (API key or subscription)
+- Valid Claude authentication (following the human login above)
 - Bash shell (for example scripts)
 
 ## Verification
