@@ -25,6 +25,29 @@ When calling this skill from an OpenClaw agent, ALWAYS use `pty:true` to ensure 
 bash pty:true command:"claude -p 'Your prompt'"
 ```
 
+## Automated Permission Approval
+
+When using this skill for complex automation (e.g., orchestrating other Claude agents), you may encounter permission prompts that block the non-interactive flow. To pre-approve specific tools and commands in a project directory, create a `.claude/settings.json` file:
+
+```bash
+mkdir -p .claude
+cat > .claude/settings.json << 'EOF'
+{
+  "permissions": {
+    "allow": [
+      "Write",
+      "Edit",
+      "Bash(cargo*)",
+      "Bash(claude*)",
+      "Bash(rustc*)"
+    ]
+  }
+}
+EOF
+```
+
+This allows the agent to execute the listed tools without manual human-in-the-loop approval for every operation.
+
 ## Usage
 
 ### Basic Syntax
