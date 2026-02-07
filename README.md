@@ -52,6 +52,10 @@ For quick queries, use the wrapper script:
 
 # Code-related query
 ./scripts/quick_claude.sh "Explain what a closure is in JavaScript"
+
+# Specify a model with -m flag
+./scripts/quick_claude.sh -m opus "Explain quantum computing"
+./scripts/quick_claude.sh -m sonnet "Write a Python function to sort a list"
 ```
 
 ## Basic Usage
